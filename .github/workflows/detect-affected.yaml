@@ -4,7 +4,7 @@ on:
     branches: [ main ]
 
 jobs: 
-  changedfiles:
+  detect-affected:
     runs-on: ubuntu-latest
     outputs:
       crates: ${{ steps.changes.outputs.crates }}
@@ -20,5 +20,15 @@ jobs:
       - name: Get changed packages
         id: changes
         run: |
-          python .github/detect_affected.py "${{ github.event.before }}" "${{ github.sha }}"
-
+          python .github/detect_affected.py "${{ github.event.before }}" "${{ github.sha }}" 1>$GITHUB_OUTPUT
+  trigger-on-affected-crates:
+    needs: detect-affected
+    strategy:
+      matrix:
+        crate: ${{ fromJson(steps.detect-affected.outputs.affected) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger parameterized workflow on affected crates
+        uses: ./.github/workflows/do-something-with-affected-crate.yaml
+        with:
+          crate: ${{ matrix.crate }}
