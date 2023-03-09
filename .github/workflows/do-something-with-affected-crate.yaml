@@ -1,0 +1,19 @@
+on:
+  workflow_call:
+    inputs:
+      crate:
+        required: true
+        type: string
+jobs:
+  run:
+    name: Do something ${{ inputs.crate }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Do something
+      run: |
+        cd ${{ inputs.crate }}
+        cargo build
+        echo "did something with ", ${{ inputs.crate }}
+      
