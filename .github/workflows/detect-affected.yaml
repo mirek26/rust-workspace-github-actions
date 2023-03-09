@@ -1,0 +1,22 @@
+name: detect affected packages
+on: 
+  push: 
+    branches: [ main ]
+
+jobs: 
+  changedfiles:
+    runs-on: ubuntu-latest
+    outputs:
+      crates: ${{ steps.changes.outputs.crates }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Get changed packages
+        id: changes
+        run: |
+          python .github/detect_affected.py ${{ github.event.pull_request.base.sha }} ${{ github.sha }}
+
