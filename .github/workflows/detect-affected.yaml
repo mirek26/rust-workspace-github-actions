@@ -18,5 +18,5 @@ jobs:
       - name: Get changed packages
         id: changes
         run: |
-          python .github/detect_affected.py ${{ github.event.pull_request.base.sha }} ${{ github.sha }}
+          python .github/detect_affected.py "${{ github.event.before }}" "${{ github.sha }}"
 
