@@ -28,6 +28,8 @@ jobs:
         crate: ${{ fromJSON(needs.detect-affected.outputs.affected) }}
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
       - name: Trigger parameterized workflow on affected crates
         uses: ./.github/workflows/do-something-with-affected-crate.yaml
         with:
