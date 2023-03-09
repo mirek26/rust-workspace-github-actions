@@ -20,7 +20,7 @@ jobs:
       - name: Get changed packages
         id: changes
         run: |
-          python .github/detect_affected.py "${{ github.event.before }}" "${{ github.sha }}" 1>>$GITHUB_OUTPUT
+          python .github/detect_affected.py "${{ github.event.before }}" "${{ github.sha }}" 2>>$GITHUB_OUTPUT
   trigger-on-affected-crates:
     needs: detect-affected
     strategy:
