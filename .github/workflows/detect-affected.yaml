@@ -21,7 +21,7 @@ jobs:
         id: changes
         run: |
           python .github/detect_affected.py "${{ github.event.before }}" "${{ github.sha }}" 2>>$GITHUB_OUTPUT
-  trigger-on-affected-crates:
+  do-something:
     needs: detect-affected
     strategy:
       matrix:
