@@ -3,7 +3,7 @@ import subprocess
 import sys
 
 # Get data about workspace
-metadata = json.loads(subprocess.check_output(['cargo', 'metadata']).decode("utf-8"))
+metadata = json.loads(subprocess.check_output(['cargo', 'metadata', '--format-version=1']).decode("utf-8"))
 packages = [p['name'] for p in metadata['packages']]
 deps = {p['name']: [dep['name'] for dep in p['dependencies']] for p in metadata['packages']}
 print(f"::debug::all-packages={packages}")
@@ -19,4 +19,4 @@ while True:
     if len(new_affected) == len(affected):
         break
     affected = new_affected
-print(f"{affected}={json.dumps(affected)}", file=sys.stderr)
+print(f"affected={json.dumps(affected)}", file=sys.stderr)
